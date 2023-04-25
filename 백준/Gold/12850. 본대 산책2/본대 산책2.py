@@ -1,5 +1,4 @@
 import sys
-import bisect
 is_boj = 1
 if is_boj:
 	f = sys.stdin
