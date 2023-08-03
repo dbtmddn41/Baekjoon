@@ -7,11 +7,11 @@ type ans_set struct {
 	one int
 }
 
-var known map[int] ans_set
 
 func main() {
 	var T int
 	var N int
+	var known map[int] ans_set
 	known = make(map[int] ans_set)
     known[0] = ans_set{1, 0}
     known[1] = ans_set{0, 1}
@@ -20,17 +20,17 @@ func main() {
 	fmt.Scanln(&T)
 	for j := 0; j < T; j++ {
 		fmt.Scanln(&N)
-		ans := fibbo(N)
+		ans := fibbo(N, known)
 		fmt.Println(ans.zero, ans.one)
 	}
 }
 
-func fibbo(N int) ans_set {
+func fibbo(N int, known map[int]ans_set) ans_set {
 	if ans, ok := known[N]; ok {
         return ans
     }
-	res1 := fibbo(N-2)
-	res2 := fibbo(N-3)
+	res1 := fibbo(N-2, known)
+	res2 := fibbo(N-3, known)
 	known[N] = add(&res1, &res2)
 	return known[N] 
 }
