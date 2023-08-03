@@ -29,9 +29,12 @@ func fibbo(N int) ans_set {
 	if ans, ok := known[N]; ok {
         return ans
     }
-	return add(fibbo(N-2), fibbo(N-3))
+	res1 := fibbo(N-2)
+	res2 := fibbo(N-3)
+	known[N] = add(&res1, &res2)
+	return known[N] 
 }
 
-func add(a ans_set, b ans_set) ans_set {
+func add(a *ans_set, b *ans_set) ans_set {
 	return ans_set{2*a.zero+b.zero, 2*a.one+b.one}
 }
