@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"bufio"
 	"os"
+	"strconv"
 )
 
 // An IntHeap is a min-heap of ints.
@@ -32,28 +33,28 @@ func (h *Maxheap) update(value int) {
     heap.Fix(h, value)
 }
 
-// This example inserts several ints into an Maxheap, checks the minimum,
-// and removes them in order of priority.
+var (
+	reader *bufio.Reader = bufio.NewReader(os.Stdin)
+	scanner = bufio.NewScanner(os.Stdin)
+	writer *bufio.Writer = bufio.NewWriter(os.Stdout)
+)
+
 func main() {
-	var reader *bufio.Reader = bufio.NewReader(os.Stdin)
-	var writer *bufio.Writer = bufio.NewWriter(os.Stdout)
 	defer writer.Flush()
+	scanner.Split(bufio.ScanWords)
 
 	var N, M int
 	var childs []int
-	var tmp int
 
-	fmt.Fscanln(reader, &N, &M)
+	N, M = scanInt(), scanInt()
 	gifts := &Maxheap{}
 	heap.Init(gifts)
 	for i := 0; i < N; i++ {
-		fmt.Fscan(reader, &tmp)
-		heap.Push(gifts, tmp)
+		heap.Push(gifts, scanInt())
 	}
 
 	for i := 0; i < M; i++ {
-		fmt.Fscan(reader,&tmp)
-		childs = append(childs, tmp)
+		childs = append(childs, scanInt())
 	}
 
 	res := 1
@@ -67,4 +68,20 @@ func main() {
 		}
 	}
 	fmt.Fprintln(writer, res)
+}
+
+func scanString() string {
+	scanner.Scan()
+	return scanner.Text()
+}
+
+func mustParseInt(s string) int {
+	n, _ := strconv.Atoi(s)
+	return n
+}
+
+func scanInt() int {
+	return mustParseInt(scanString())
+	// n, _ = strconv.Atoi(scanner.Scan().Text())
+	// return n
 }
